@@ -1,0 +1,95 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+}
+
+.calculator {
+    background-color: #333;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    width: 300px;
+}
+
+.display {
+    margin-bottom: 20px;
+    background-color: #444;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.expression {
+    width: 100%;
+    border: none;
+    background-color: transparent;
+    color: #ccc;
+    font-size: 16px;
+    text-align: right;
+    margin-bottom: 5px;
+}
+
+.result {
+    width: 100%;
+    border: none;
+    background-color: transparent;
+    color: white;
+    font-size: 28px;
+    text-align: right;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 10px;
+}
+
+button {
+    padding: 15px 0;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #555;
+    color: white;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #666;
+}
+
+.operator {
+    background-color: #ff9500;
+}
+
+.operator:hover {
+    background-color: #ffaa33;
+}
+
+button[value="="] {
+    background-color: #4CAF50;
+}
+
+button[value="="]:hover {
+    background-color: #5dbd60;
+}
+
+button[value="clear"] {
+    background-color: #f44336;
+}
+
+button[value="clear"]:hover {
+    background-color: #ff5c4f;
+}
