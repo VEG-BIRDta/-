@@ -27,6 +27,12 @@ document.addEventListener('DOMContentLoaded', function() {
             } else if (['+', '-', '*', '/', '%'].includes(value)) {
                 // 处理运算符
                 handleOperator(value, displayValue);
+            } else if (value === 'reciprocal') {  
+                // 计算倒数
+                calculateReciprocal();
+            } else if (value === 'x²') {  
+                // 计算平方
+                calculateSquare();
             } else {
                 // 处理数字和小数点
                 appendNumber(value);
@@ -37,6 +43,60 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
+
+    function calculateSquare() {
+    if (currentInput === '' && previousInput === '') return;
+    
+    // 确定要计算平方的值
+    const valueToSquare = currentInput || previousInput;
+    if (valueToSquare === '') return;
+    
+    const num = parseFloat(valueToSquare);
+    if (isNaN(num)) return;
+    
+    // 计算平方
+    const squared = roundNumber(num * num);
+    
+    // 保存完整表达式用于显示
+    const baseExpression = expressionText || '';
+    
+    // 更新状态
+    currentInput = squared.toString();
+    
+    // 构建表达式文本
+    if (baseExpression.includes('=')) {
+        // 如果已经有等号，重新开始表达式
+        expressionText = `(${valueToSquare})² = `;
+    } else if (currentOperation !== null) {
+        // 如果正在进行运算，将平方应用到当前输入
+        expressionText = `${baseExpression}(${valueToSquare})² = `;
+    } else {
+        // 普通情况
+        expressionText = `${valueToSquare}² = `;
+    }
+    
+    currentOperation = null;
+    previousInput = '';
+}
+
+    // 倒数计算
+    function calculateReciprocal() {
+        let numberToCalculate = currentInput || previousInput || '0';
+    
+        if (numberToCalculate === '0') {
+            result.value = 'ERROR';
+            return;
+        }
+    
+        const num = parseFloat(numberToCalculate);
+        const reciprocal = roundNumber(1 / num);
+    
+        expressionText = `1/(${numberToCalculate}) = `;
+        currentInput = reciprocal.toString();
+        previousInput = '';
+        currentOperation = null;
+    }
+
     // 清除所有输入
     function clear() {
         currentInput = '';
