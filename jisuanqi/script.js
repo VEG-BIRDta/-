@@ -1,7 +1,23 @@
 document.addEventListener('DOMContentLoaded', function() {
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
+    let isLightTheme = false;
+    
+    themeToggle.addEventListener('click', function() {
+        isLightTheme = !isLightTheme;
+        
+        if (isLightTheme) {
+            body.classList.add('light-theme');
+            themeToggle.textContent = '切换暗色主题';
+        } else {
+            body.classList.remove('light-theme');
+            themeToggle.textContent = '切换浅色主题';
+        }
+    });
+
     const expression = document.getElementById('expression');
     const result = document.getElementById('result');
-    const buttons = document.querySelectorAll('button');
+    const buttons = document.querySelectorAll('.buttons button');    
     
     let currentInput = '';
     let currentOperation = null;
