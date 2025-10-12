@@ -49,6 +49,12 @@ document.addEventListener('DOMContentLoaded', function() {
             } else if (value === 'x²') {  
                 // 计算平方
                 calculateSquare();
+            } else if (value === 'sqrt') {  
+                // 计算平方根
+                calculateSquareRoot();
+            } else if (value === 'power') {  
+                // 幂运算
+                handlePower();
             } else {
                 // 处理数字和小数点
                 appendNumber(value);
@@ -59,6 +65,69 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
+    // 新增：处理幂运算
+    function handlePower() {
+        if (currentInput === '' && previousInput === '') return;
+        
+        // 如果有当前输入，将其作为底数
+        if (currentInput !== '') {
+            currentOperation = '^';
+            previousInput = currentInput;
+            expressionText = previousInput + ' ^ ';
+            currentInput = '';
+        }
+        // 如果只有之前的输入，将其作为底数
+        else if (previousInput !== '') {
+            currentOperation = '^';
+            expressionText = previousInput + ' ^ ';
+        }
+    }
+
+    // 平方根计算函数
+    function calculateSquareRoot() {
+        if (currentInput === '' && previousInput === '') return;
+        
+        // 确定要计算平方根的值
+        const valueToSqrt = currentInput || previousInput;
+        if (valueToSqrt === '') return;
+        
+        const num = parseFloat(valueToSqrt);
+        if (isNaN(num)) return;
+        
+        // 检查是否为负数
+        if (num < 0) {
+            result.value = 'ERROR';
+            expressionText = `√(${valueToSqrt}) = `;
+            currentInput = '';
+            previousInput = '';
+            currentOperation = null;
+            return;
+        }
+        
+        // 计算平方根
+        const sqrtResult = roundNumber(Math.sqrt(num));
+        
+        // 保存完整表达式用于显示
+        const baseExpression = expressionText || '';
+        
+        // 更新状态
+        currentInput = sqrtResult.toString();
+        
+        // 构建表达式文本
+        if (baseExpression.includes('=')) {
+            // 如果已经有等号，重新开始表达式
+            expressionText = `√(${valueToSqrt}) = `;
+        } else if (currentOperation !== null) {
+            // 如果正在进行运算，将平方根应用到当前输入
+            expressionText = `${baseExpression}√(${valueToSqrt}) = `;
+        } else {
+            // 普通情况
+            expressionText = `√(${valueToSqrt}) = `;
+        }
+        
+        currentOperation = null;
+        previousInput = '';
+    }
 
     function calculateSquare() {
     if (currentInput === '' && previousInput === '') return;
@@ -212,6 +281,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 break;
             case '%':
                 computation = roundNumber(prev % currentVal);
+                break;
+            case '^':  
+                computation = roundNumber(Math.pow(prev, currentVal));
                 break;
             default:
                 return;
