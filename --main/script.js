@@ -591,10 +591,12 @@ document.addEventListener('DOMContentLoaded', function() {
         s = s.replace(/×/g, '*').replace(/÷/g, '/');
         // 将 ^ 替换为 **
         s = s.replace(/\^/g, '**');
-        // 三角函数（角度转弧度）
-        s = s.replace(/sin\s*\(/g, 'Math.sin(toRad(');
-        s = s.replace(/cos\s*\(/g, 'Math.cos(toRad(');
-        s = s.replace(/tan\s*\(/g, 'Math.tan(toRad(');
+        
+        // 修复：直接在表达式中完成角度转弧度
+        s = s.replace(/sin\s*\(([^)]*)\)/g, 'Math.sin(($1) * Math.PI / 180)');
+        s = s.replace(/cos\s*\(([^)]*)\)/g, 'Math.cos(($1) * Math.PI / 180)');
+        s = s.replace(/tan\s*\(([^)]*)\)/g, 'Math.tan(($1) * Math.PI / 180)');
+        
         // 倒数表达式
         s = s.replace(/1\/\(/g, '1/(');
         // 平方根表达式
@@ -617,11 +619,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!expr) return 0;
         if (!parenthesesBalanced(expr)) return null;
         try {
-            // 使用函数作用域传入 toRad，避免全局污染
-            // 限制：不允许包含字母除 Math 和 toRad
-            // 但因已替换为 Math.* 和数字/运算符/括号，这里直接求值
-            const fn = new Function('toRad', 'return ' + expr);
-            const val = fn(function toRad(deg){ return deg * Math.PI / 180; });
+            // 修复：直接求值，不再依赖外部函数
+            const val = Function('"use strict"; return ' + expr)();
             if (typeof val === 'number' && isFinite(val)) {
                 return roundNumber(val);
             }
