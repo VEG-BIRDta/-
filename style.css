@@ -123,6 +123,14 @@ button[value="clear"]:hover {
     margin-bottom: 20px;
 }
 
+#genRecipe {
+    width: 50px;
+}
+
+#resetRecipe {
+    width: 50px;
+}
+
 #themeToggle {
     padding: 10px 20px;
     font-size: 16px;
@@ -227,7 +235,7 @@ body.light-theme #themeToggle {
 
 /* 菜谱生成器 */
 .recipe {
-    width: 360px;
+    width: 560px;
     background: #333;
     color: #fff;
     border-radius: 16px;
@@ -294,5 +302,14 @@ body.light-theme .ing-btn.active { background: #007bff; color: #fff; }
 }
 
 .ing-btn.conflict {
-    outline: 2px solid #ff4d4f;
+    border: 2px solid #ff4d4f !important;
+    background-color: #ff4d4f !important;
+    color: #fff !important;
+    box-shadow: 0 0 8px rgba(255, 77, 79, 0.5);
+}
+
+body.light-theme .ing-btn.conflict {
+    border: 2px solid #ff4d4f !important;
+    background-color: #ff4d4f !important;
+    color: #fff !important;
 }
